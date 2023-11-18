@@ -11,13 +11,13 @@ class handler(BaseHTTPRequestHandler):
         url = self.path
         url_components = parse.urlsplit(url)
         query_string_list = parse.parse_qsl(url_components.query)
-        dictionary = dict(query_string_list)  # /?news=something
+        dictionary = dict(query_string_list)  # /?topic=something
 
         # We can do stuff!
         print(dictionary)
-        if dictionary.get("news"):
-            raw_story = scraper(dictionary.get("news"))
-            summary = f"{raw_story[0]}\n\n{article_summary(raw_story[1])}"
+        if dictionary.get("topic"):
+            raw_story = scraper(dictionary.get("topic"))
+            summary = f"{raw_story[0]}\n\n{article_summary(raw_story[1])}\n"
         else:
             summary = "No query string found."
 
@@ -29,7 +29,7 @@ class handler(BaseHTTPRequestHandler):
 
 
 if __name__ == '__main__':
-    # http://localhost:8000/?news=cars
+    # http://localhost:8000/?topic=cars
     server_address = ('localhost', 8000)  # use any available port
     httpd = HTTPServer(server_address, handler)  # httpd is a commonly used abbreviation for "HTTP Daemon"
     print(f'Starting httpd server on {server_address[0]}:{server_address[1]}')
